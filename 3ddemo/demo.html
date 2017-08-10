@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <!-- 创建一个webgl简单程序 -->
+        <script type="text/javascript">
+
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            var container = document.createElement("div");
+            document.body.appendChild(container);
+            var webglcanvas = document.createElement("canvas");
+            container.appendChild(webglcanvas);
+            var gl = webglcanvas.getContext('experimental-webgl');
+            function updateFrame(){
+                gl.viewport(0,0,width,height);
+                gl.clearColor(0.4,0.4,0.7,1);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                setTimeout(function(){updateFrame()},20);
+            }
+            setTimeout(function(){
+                updateFrame();
+            },20)
+
+        </script>
+    </body>
+</html>

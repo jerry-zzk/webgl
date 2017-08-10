@@ -1,0 +1,16 @@
+var json={  
+    objects: [{
+        name: '地板',
+        type: 'cube',
+        width: 1600,
+        height: 10,
+        depth: 1300,
+        style: {
+            'm.color': '#BEC9BE',
+            'm.ambient': '#BEC9BE',
+        }
+        },{
+
+        }
+    ],
+}

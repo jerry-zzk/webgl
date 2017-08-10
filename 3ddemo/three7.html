@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="js/three.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            let scene = new THREE.Scene();
+            let camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,10000); 
+            //创建渲染器，并设置透明背景和抗拒齿为true
+            let renderer = new THREE.WebGLRenderer({
+                alpha:true,
+                antialias:true
+            });
+            //设置视口和窗口大小一致
+            renderer.setSize(window.innerWidth,windw.innerHeight);
+            
+        </script>
+    </body>
+</html>

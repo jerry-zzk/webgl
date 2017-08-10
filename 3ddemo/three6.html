@@ -1,0 +1,204 @@
+<!DOCTYPE html>  
+<html>  
+    <head>  
+        <meta charset="UTF-8">  
+        <title>love</title>  
+        <script src="js/three.js"></script>  
+        <script src="js/Stats.js"></script>  
+        <script src="js/tween.js"></script>  
+        <script src="js/Detector.js"></script>  
+        <script src="js/OrbitControls.js"></script>  
+        <style type="text/css">  
+            div#canvas-frame {  
+                border: none;  
+                cursor: pointer;  
+                width: 100%;  
+                height: 100%;  
+                background-color: #330000;  
+            }  
+  
+        </style>  
+            <script>  
+            var renderer;  
+            function initThree() {  
+                width = document.getElementById('canvas-frame').clientWidth;  
+                height = document.getElementById('canvas-frame').clientHeight;  
+                renderer = new THREE.WebGLRenderer({  
+                    antialias : true  
+                });  
+                renderer.setSize(width, height);  
+                document.getElementById('canvas-frame').appendChild(renderer.domElement);  
+                renderer.setClearColor(000000, 1.0);  
+            }  
+  
+            var camera;  
+            var controls;  
+            function initCamera() {  
+                camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);  
+                camera.position.x = 600;  
+                camera.position.y = 0;  
+                camera.position.z = 600;  
+                camera.up.x = 0;  
+                camera.up.y = 1;  
+                camera.up.z = 0;  
+                camera.lookAt({  
+                    x : 0,  
+                    y : 0,  
+                    z : 0  
+                });  
+  
+  
+                controls = new THREE.OrbitControls( camera );  
+                controls.target.set( 0, 0, 0 );  
+                controls.update();  
+            }  
+  
+            var scene;  
+            function initScene() {  
+                scene = new THREE.Scene();  
+            }  
+  
+            var light;  
+            function initLight() {  
+                light = new THREE.AmbientLight(0xFF0000);  
+                light.position.set(100, 100, 200);  
+                scene.add(light);  
+            }  
+  
+            var cube;  
+            function initObject() {  
+                var geometry = new THREE.CubeGeometry( 200, 100, 50,4,4);  
+                var material = new THREE.MeshLambertMaterial( { color:0x880000} );  
+                var mesh = new THREE.Mesh( geometry,material);  
+                mesh.position = new THREE.Vector3(0,0,0);  
+                scene.add(mesh);  
+            }  
+              
+            function cube1()  
+            {  
+                /* 
+                //var manager = new THREE.LoadingManager(); 
+                var texture = new THREE.Texture(); 
+                var loader = new THREE.ImageLoader(  ); 
+                var tex = loader.load("cat.jpg",function ( image ) { 
+ 
+                    texture.image = image; 
+                    texture.needsUpdate = true; 
+            }); 
+ 
+*/  
+                /* 
+                var manager = new THREE.LoadingManager(); 
+                manager.onProgress = function ( item, loaded, total ) { 
+ 
+                    console.log( item, loaded, total ); 
+ 
+                }; 
+ 
+                var texture = new THREE.Texture(); 
+ 
+                var onProgress = function ( xhr ) { 
+                    if ( xhr.lengthComputable ) { 
+                        var percentComplete = xhr.loaded / xhr.total * 100; 
+                        console.log( Math.round(percentComplete, 2) + '% downloaded' ); 
+                    } 
+                }; 
+ 
+                var onError = function ( xhr ) { 
+                }; 
+ 
+ 
+                var loader = new THREE.ImageLoader( manager ); 
+                loader.load( './4.png', function ( image ) { 
+ 
+                    texture.image = image; 
+                    texture.needsUpdate = true; 
+ 
+                } ); 
+                 
+                */  
+  
+                var textureLoader = new THREE.TextureLoader();  
+                var texture = textureLoader.load('./q.png', function(texture) {  
+  
+                });  
+  
+                var cube1_geometr = new THREE.PlaneGeometry(200, 200, 1, 1);  
+                    var cube1_material = new THREE.MeshBasicMaterial({  
+                    map: texture,  
+                    side: THREE.DoubleSide,  
+                    //depthTest: true,  
+                    //blending: THREE.AdditiveBlending,  
+                    transparent: true  
+  
+                    });  
+                    texture.needsUpdate = true;  
+                    texture.anisotropy  = renderer.getMaxAnisotropy();  
+                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;  
+                    //texture.repeat.set( 512, 512 );  
+                    var cube1 = [];  
+                    for(var i = 0; i < 6; i++){  
+                        cube1.push(new THREE.Mesh(cube1_geometr, cube1_material));  
+                        scene.add(cube1[i]);  
+                        scene.needsUpdate = true;  
+                    }  
+                  
+                    var PIC2 = Math.PI/2;  
+                  
+                    cube1[0].position.set(0, 0, 250);  
+              
+                    cube1[1].position.set(0, 0, -250);  
+  
+                    cube1[2].position.set(-250, 0, 0);  
+                    cube1[2].rotation.set(0, PIC2, 0);  
+                  
+                    cube1[3].position.set(250, 0, 0);  
+                    cube1[3].rotation.set(0, PIC2, 0);  
+                      
+                    cube1[4].position.set(0, 250, 0);  
+                    cube1[4].rotation.set(PIC2, 0, 0);  
+                      
+                    cube1[5].position.set(0, -250, 0);  
+                    cube1[5].rotation.set(PIC2, 0, 0);  
+  
+                  
+            }  
+            function onWindowResize() {  
+  
+                camera.aspect = window.innerWidth / window.innerHeight;  
+                camera.updateProjectionMatrix();  
+  
+                renderer.setSize( window.innerWidth, window.innerHeight );  
+  
+            }  
+  
+  
+            function threeStart() {  
+                initThree();  
+                initCamera();  
+                initScene();  
+                initLight();  
+                initObject();  
+                cube1();  
+                renderer.clear();  
+               // onWindowResize();  
+                renderer.render(scene, camera);  
+                 //requestAnimationFrame( threeStart );  
+                 animate()  
+            }  
+  
+            function animate() {  
+                requestAnimationFrame( animate );  
+                camera.lookAt( scene.position );  
+                onWindowResize();  
+                renderer.render( scene, camera );  
+             }  
+  
+        </script>  
+    </head>  
+  
+    <body onload ="threeStart();">  
+        <div id="canvas-frame"></div>  
+    </body>  
+</html>  
+
